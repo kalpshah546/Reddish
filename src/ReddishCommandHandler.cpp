@@ -38,3 +38,13 @@ std::vector<std::string> parseCommand(const std::string& input){
     
 }
 ReddishCommandHandler::ReddishCommandHandler(){}
+std::string ReddishCommandHandler::processCommand(const std::string& commandLine){
+    // return parseCommand(commandLine).empty() ? "Error: Invalid command" : "OK";
+    auto tokens=parseCommand(commandLine);
+    
+    if(tokens.empty()) return "Error: Invalid command";
+    for(auto& token:tokens){
+        std::cout<<token<<std::endl;
+    }
+    return "OK";
+}

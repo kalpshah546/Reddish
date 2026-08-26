@@ -1,9 +1,11 @@
 #include "ReddishServer.h"
-#include <unistd.h>
+#include "ReddishCommandHandler.h"
 #include <iostream>
+#include <vector>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#include <thread>
 
 using namespace std;
 static ReddishServer*global_server=nullptr;
@@ -46,10 +48,10 @@ void ReddishServer::run(){
 
 
     cout << "Reddish server listening on port "<< port << endl;
-    std::vector<std::threads>threads;
+    vector<std::thread>threads;
     ReddishCommandHandler cmd;
     while(running){
-        client_socket=accept(server_socket,nullptr,nullptr);
+        int client_socket=accept(server_socket,nullptr,nullptr);
         if(client_socket<0){
             if(running){
                 cerr<<"Error accepting connection"<<endl;
@@ -63,7 +65,7 @@ void ReddishServer::run(){
                     break;
                 }
                 std::string request(buffer,bytes);
-                std::string response=cmd.handleCommand(request);
+                std::string response=cmd.processCommand(request);
                 send(client_socket,response.c_str(),response.size(),0);
             }
             close(client_socket);

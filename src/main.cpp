@@ -5,7 +5,7 @@
 using namespace std;
 
 int main(int argc,char*argv[]){
-    int port=6379;
+    int port=1234;
     if(argc>=2) port=stoi(argv[1]);
     ReddishServer server(port);
     
