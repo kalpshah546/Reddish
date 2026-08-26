@@ -7,7 +7,7 @@ using namespace std;
 int main(int argc,char*argv[]){
     int port=6379;
     if(argc>=2) port=stoi(argv[1]);
-    ReddishServer server(1234);
+    ReddishServer server(port);
     
     //dump the data in disk every 5 minutes for persistence
     thread persistenceThread([](){

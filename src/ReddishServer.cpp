@@ -44,6 +44,35 @@ void ReddishServer::run(){
         return;
     }
 
+
     cout << "Reddish server listening on port "<< port << endl;
+    std::vector<std::threads>threads;
+    ReddishCommandHandler cmd;
+    while(running){
+        client_socket=accept(server_socket,nullptr,nullptr);
+        if(client_socket<0){
+            if(running){
+                cerr<<"Error accepting connection"<<endl;
+            }
+        }
+        threads.emplace_back([client_socket,&cmd](){
+            while(true){
+                char buffer[1024];
+                ssize_t bytes=recv(client_socket,buffer,sizeof(buffer)-1,0);
+                if(bytes<=0){
+                    break;
+                }
+                std::string request(buffer,bytes);
+                std::string response=cmd.handleCommand(request);
+                send(client_socket,response.c_str(),response.size(),0);
+            }
+            close(client_socket);
+        });
+        for(auto& t:threads){
+            if(t.joinable()){
+                t.join();
+            }
+        }
+    }
 
 }

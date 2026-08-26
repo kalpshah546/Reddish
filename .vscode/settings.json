@@ -1,0 +1,29 @@
+{
+  "C_Cpp.errorSquiggles": "Enabled",
+  "C_Cpp.showWarnings": true,
+  "C_Cpp.showInformation": true,
+  "C_Cpp.intelliSenseEngine": "default",
+  "C_Cpp.default.compilerPath": "/usr/bin/g++",
+  "C_Cpp.default.cppStandard": "c++17",
+  "C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
+  "editor.showUnusedLocals": true,
+  "editor.showDeprecated": true,
+  "editor.renderValidationDecorations": "on",
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": true,
+    "strings": true
+  },
+  "editor.suggestOnTriggerCharacters": true,
+  "editor.inlineSuggest.enabled": true,
+  "[cpp]": {
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": true,
+      "strings": true
+    },
+    "editor.suggestOnTriggerCharacters": true,
+    "editor.inlineSuggest.enabled": true,
+    "editor.parameterHints.enabled": true
+  }
+}
