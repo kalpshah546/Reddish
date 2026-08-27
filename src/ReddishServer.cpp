@@ -1,17 +1,31 @@
 #include "ReddishServer.h"
 #include "ReddishCommandHandler.h"
+#include "ReddishDatabase.h"
 #include <iostream>
 #include <vector>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
 #include <thread>
+#include <signal.h>
+#include <csignal>
 
 using namespace std;
 static ReddishServer*global_server=nullptr;
 
+void ReddishServer::handleSignal(int signal){
+    if(global_server){
+        cout<<"Received signal "<<signal<<", shutting down the server..."<<endl;
+        global_server->shutdown();
+    }
+    exit(signal);
+}
+void ReddishServer::setupSignalHandler(int signal){
+    std::signal(SIGINT,handleSignal);
+}
 ReddishServer::ReddishServer(int port):port(port),server_socket(-1),running(true){
     global_server=this;
+    setupSignalHandler(SIGINT);
 }
 
 void ReddishServer::shutdown(){
@@ -75,6 +89,14 @@ void ReddishServer::run(){
                 t.join();
             }
         }
+        //before shutting down , persist the data to disk
+        if(!ReddishDatabase::getInstance().dump("reddish.db")){
+            cerr<<"Failed to dump the database"<<endl;
+        }
+        else{
+            cout<<"Database dumped successfully"<<endl;
+        }
+
     }
 
 }

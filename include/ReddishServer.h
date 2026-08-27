@@ -13,6 +13,10 @@ class ReddishServer{
         ReddishServer(int port);
         void run();
         void shutdown();
+
+        //when user enters Ctrl+C, shutting down the server gracefully instead of abruptly killing the process
+        static void handleSignal(int signal);
+        void setupSignalHandler(int signal);
 };
 
 #endif

@@ -3,6 +3,7 @@ CXXFLAGS = -std=c++11 -Wall -Wextra -g -Iinclude -pthread -O2
 
 SERVER_OBJS = build/ReddishCommandHandler.o \
               build/ReddishServer.o \
+			  build/ReddishDatabase.o \
               build/main.o
 
 CLIENT_OBJS = build/client_test.o

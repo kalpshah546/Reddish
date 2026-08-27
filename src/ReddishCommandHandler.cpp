@@ -1,7 +1,8 @@
 #include "ReddishCommandHandler.h"
+#include "ReddishDatabase.h"
 #include <vector>
 #include <sstream>
-
+#include <algorithm>
 
 std::vector<std::string> parseCommand(const std::string& input){
     std::vector<std::string>tokens;
@@ -39,12 +40,18 @@ std::vector<std::string> parseCommand(const std::string& input){
 }
 ReddishCommandHandler::ReddishCommandHandler(){}
 std::string ReddishCommandHandler::processCommand(const std::string& commandLine){
-    // return parseCommand(commandLine).empty() ? "Error: Invalid command" : "OK";
     auto tokens=parseCommand(commandLine);
-    
-    if(tokens.empty()) return "Error: Invalid command";
-    for(auto& token:tokens){
-        std::cout<<token<<std::endl;
+    if(tokens.empty()){
+        return "-ERR Empty command\r\n";
     }
-    return "OK";
+    std::string command=tokens[0];
+    std::transform(command.begin(),command.end(),command.begin(),::toupper);
+    std::ostringstream response;
+    ReddishDatabase& db=ReddishDatabase::getInstance();
+    if(command=="PING"){
+        response<<"+PONG\r\n";
+    }
+    else if(command=="ECHO"){
+
+    }
 }

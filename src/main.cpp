@@ -1,5 +1,6 @@
 #include <iostream>
 #include "../include/ReddishServer.h"
+#include "../include/ReddishDatabase.h"
 #include <thread>
 #include <chrono>
 using namespace std;
@@ -14,6 +15,12 @@ int main(int argc,char*argv[]){
         while(true){
             this_thread::sleep_for(chrono::seconds(300));
             // dump the database
+            if(!ReddishDatabase::getInstance().dump("reddish.db")){
+                cerr<<"Failed to dump the database"<<endl;
+            }
+            else{
+                cout<<"Database dumped successfully"<<endl;
+            }
         }
     });
     persistenceThread.detach();
